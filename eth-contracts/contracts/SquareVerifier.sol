@@ -143,7 +143,7 @@ library Pairing {
     }
 }
 
-contract Verifier {
+contract SquareVerifier {
 
     using Pairing for *;
 
