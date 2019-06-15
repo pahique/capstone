@@ -525,14 +525,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-contract CustomERC721Token is ERC721Metadata {
+contract CapstoneRealStateToken is ERC721Metadata {
 
-    constructor(
-        string memory name, 
-        string memory symbol
-    ) ERC721Metadata(
-        name, 
-        symbol, 
+    constructor() ERC721Metadata(
+        "CapstoneRealState", 
+        "OCA", 
         "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/"
     ) public {
     }

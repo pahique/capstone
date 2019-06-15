@@ -8,6 +8,10 @@ contract('SquareVerifier', accounts => {
     let contract;
     const account_one = accounts[0];
 
+    before(async function () { 
+        contract = await SquareVerifier.new({from: account_one});
+    })
+
     let a = proofJson["proof"]["A"];
     let a_p = proofJson["proof"]["A_p"];
     let b = proofJson["proof"]["B"];
@@ -19,10 +23,6 @@ contract('SquareVerifier', accounts => {
     let input = proofJson["input"];
 
     describe('verify tx', function () {
-
-        beforeEach(async function () { 
-            contract = await SquareVerifier.new({from: account_one});
-        })
 
         // Test verification with correct proof
         it('correct proof', async function () { 

@@ -19,11 +19,11 @@ interface SquareVerifier {
 }
 
 // define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
-contract SolnSquareVerifier is CustomERC721Token {
+contract SolnSquareVerifier is CapstoneRealStateToken {
 
     SquareVerifier verifierContract;
 
-    constructor(address verifierAddress, string memory name, string memory symbol) CustomERC721Token(name, symbol) public {
+    constructor(address verifierAddress) public {
         verifierContract = SquareVerifier(verifierAddress);
     }
 
@@ -63,7 +63,7 @@ contract SolnSquareVerifier is CustomERC721Token {
         uint[2] memory input
     ) public {
         bytes32 key = keccak256(abi.encodePacked(a, a_p, b, b_p, c, c_p, h, k, input));
-        require(solutions[key].index != 0, "Solution already exists");
+        require(solutions[key].index == 0, "Solution already exists");
         require(verifierContract.verifyTx(a, a_p, b, b_p, c, c_p, h, k, input), "Zokrates verification failed");
         addSolution(key, msg.sender);
         super.mint(msg.sender, tokenId);
