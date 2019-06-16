@@ -19,7 +19,7 @@ interface SquareVerifier {
 }
 
 // define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
-contract SolnSquareVerifier is CapstoneRealStateToken {
+contract SolnSquareVerifier is CapstoneRealEstateToken {
 
     SquareVerifier verifierContract;
 

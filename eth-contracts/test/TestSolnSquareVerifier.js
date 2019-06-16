@@ -58,6 +58,12 @@ contract('TestSolnSquareVerifier', accounts => {
         await contract.mint(tokenId, a2, a_p2, b2, b_p2, c2, c_p2, h2, k2, input2, {from: account_one});
         let owner = await contract.ownerOf.call(tokenId);
         assert.equal(owner, account_one);
+        let name = await contract.name.call();
+        assert.equal(name, "Capstone Real Estate");
+        let symbol = await contract.symbol.call();
+        assert.equal(symbol, "OCA");
+        let totalSupply = await contract.totalSupply.call();
+        assert.equal(totalSupply, 2);
     })
  
 })

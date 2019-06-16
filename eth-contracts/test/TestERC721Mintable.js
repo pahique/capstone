@@ -1,4 +1,4 @@
-let CapstoneRealStateToken = artifacts.require('CapstoneRealStateToken');
+let CapstoneRealEstateToken = artifacts.require('CapstoneRealEstateToken');
 
 contract('TestERC721Mintable', accounts => {
 
@@ -12,7 +12,7 @@ contract('TestERC721Mintable', accounts => {
     describe('match erc721 spec', function () {
 
         beforeEach(async function () { 
-            this.contract = await CapstoneRealStateToken.new({from: account_one});
+            this.contract = await CapstoneRealEstateToken.new({from: account_one});
 
             // mint multiple tokens
             await this.contract.mint(account_two, 1);
@@ -69,7 +69,7 @@ contract('TestERC721Mintable', accounts => {
     describe('have ownership properties', function () {
 
         beforeEach(async function () { 
-            this.contract = await CapstoneRealStateToken.new({from: account_one});
+            this.contract = await CapstoneRealEstateToken.new({from: account_one});
         })
 
         it('should fail when minting when address is not contract owner', async function () { 
