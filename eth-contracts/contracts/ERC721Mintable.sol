@@ -190,11 +190,11 @@ contract ERC721 is Pausable, ERC165 {
     }
 
     // @dev Approves another address to transfer the given token ID
-    function approve(address to, uint256 tokenId) public {
+    function approve(address to, uint256 tokenId) public whenNotPaused {
         // validations
         require(to != ownerOf(tokenId), "The given address 'to' should not be the owner of the tokenId");
-        require(isOwner() || isApprovedForAll(ownerOf(tokenId), msg.sender), 
-            "msg.sender should be the owner of the contract or isApprovedForAll() should be true");
+        require(ownerOf(tokenId) == msg.sender || isApprovedForAll(ownerOf(tokenId), msg.sender), 
+            "msg.sender should either be the owner of the token or be approved for all");
         // add 'to' address to token approvals
         _tokenApprovals[tokenId] = to;
         // emit Approval Event
@@ -212,7 +212,7 @@ contract ERC721 is Pausable, ERC165 {
      * @param to operator address to set the approval
      * @param approved representing the status of the approval to be set
      */
-    function setApprovalForAll(address to, bool approved) public {
+    function setApprovalForAll(address to, bool approved) public whenNotPaused {
         require(to != msg.sender);
         _operatorApprovals[msg.sender][to] = approved;
         emit ApprovalForAll(msg.sender, to, approved);
@@ -228,17 +228,17 @@ contract ERC721 is Pausable, ERC165 {
         return _operatorApprovals[owner][operator];
     }
 
-    function transferFrom(address from, address to, uint256 tokenId) public {
+    function transferFrom(address from, address to, uint256 tokenId) public whenNotPaused {
         require(_isApprovedOrOwner(msg.sender, tokenId));
 
         _transferFrom(from, to, tokenId);
     }
 
-    function safeTransferFrom(address from, address to, uint256 tokenId) public {
+    function safeTransferFrom(address from, address to, uint256 tokenId) public whenNotPaused {
         safeTransferFrom(from, to, tokenId, "");
     }
 
-    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public whenNotPaused {
         transferFrom(from, to, tokenId);
         require(_checkOnERC721Received(from, to, tokenId, _data));
     }
@@ -559,7 +559,7 @@ contract CapstoneRealEstateToken is ERC721Metadata {
     ) public {
     }
 
-    function mint(address to, uint256 tokenId) public onlyOwner returns (bool) {
+    function mint(address to, uint256 tokenId) public onlyOwner whenNotPaused returns (bool) {
         _mint(to, tokenId);
         setTokenURI(tokenId);
         return true;

@@ -63,6 +63,47 @@ contract('TestERC721Mintable', accounts => {
             assert.equal(await this.contract.balanceOf.call(account_two), 2);
             assert.equal(await this.contract.balanceOf.call(account_three), 3);
         })
+
+        it('should transfer token using approved account', async function () { 
+            let tokenId = 3;
+            // owner authorizes account_five to transfer
+            await this.contract.approve(account_five, tokenId, {from: account_two});  
+            // account_five transfers token to account_four on behalf of the owner
+            await this.contract.transferFrom(account_two, account_four, tokenId, {from: account_five});  
+            assert.equal(await this.contract.ownerOf.call(tokenId), account_four);
+            assert.equal(await this.contract.balanceOf.call(account_two), 2);
+            assert.equal(await this.contract.balanceOf.call(account_four), 1);
+        })
+
+        it('can transfer more than one token when approved for all', async function () { 
+            let tokenId = 3;
+            // owner authorizes account_five to transfer any token
+            await this.contract.setApprovalForAll(account_five, true, {from: account_two});  
+            // account_five transfers tokens on behalf of the owner
+            await this.contract.transferFrom(account_two, account_four, 1, {from: account_five});  
+            await this.contract.transferFrom(account_two, account_five, 2, {from: account_five});  
+            await this.contract.transferFrom(account_two, account_six, 3, {from: account_five});  
+            assert.equal(await this.contract.ownerOf.call(1), account_four);
+            assert.equal(await this.contract.ownerOf.call(2), account_five);
+            assert.equal(await this.contract.ownerOf.call(3), account_six);
+            assert.equal(await this.contract.balanceOf.call(account_two), 0);
+            assert.equal(await this.contract.balanceOf.call(account_four), 1);
+            assert.equal(await this.contract.balanceOf.call(account_five), 2);
+            assert.equal(await this.contract.balanceOf.call(account_six), 3);
+        })
+
+        it('an account that is approved for all by the owner can approve a third account to transfer a token', async function () { 
+            let tokenId = 3;
+            // owner approves account_five for all
+            await this.contract.setApprovalForAll(account_five, true, {from: account_two});  
+            // account_five authorizes account_six to transfer a token
+            await this.contract.approve(account_six, tokenId, {from: account_five});  
+            // account_five transfers token to account_four on behalf of the owner
+            await this.contract.transferFrom(account_two, account_four, tokenId, {from: account_six});  
+            assert.equal(await this.contract.ownerOf.call(tokenId), account_four);
+            assert.equal(await this.contract.balanceOf.call(account_two), 2);
+            assert.equal(await this.contract.balanceOf.call(account_four), 1);
+        })
     });
 
 
@@ -73,15 +114,34 @@ contract('TestERC721Mintable', accounts => {
         })
 
         it('should fail when minting when address is not contract owner', async function () { 
-            await expectThrow(this.contract.mint(account_two, 9, {from: account_two}));
+            let tokenId = 1;
+            await expectThrow(this.contract.mint(account_two, tokenId, {from: account_two}));
         })
 
         it('should return contract owner', async function () { 
             let owner = await this.contract.owner.call();
             assert.equal(owner, account_one);
         })
+    });
+
+    describe('have pausable properties', function () {
+
+        beforeEach(async function () { 
+            this.contract = await CapstoneRealEstateToken.new({from: account_one});
+        })
+
+        it('cannot mint a new token when contract is paused, it needs to be unpaused first', async function () { 
+            let tokenId = 9;
+            await this.contract.pause({from: account_one});
+            await expectThrow(this.contract.mint(account_two, tokenId));
+            assert.equal(await this.contract.totalSupply.call(), 0);
+            await this.contract.unpause({from: account_one});
+            await this.contract.mint(account_two, tokenId);
+            assert.equal(await this.contract.totalSupply.call(), 1);
+        })
 
     });
+
 })
 
 let expectThrow = async function(promise) {
