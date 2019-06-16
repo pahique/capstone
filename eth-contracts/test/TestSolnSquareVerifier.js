@@ -4,7 +4,7 @@ let SolnSquareVerifier = artifacts.require('SolnSquareVerifier');
 let proofJson = require('./proof.json');
 let proof2Json = require('./proof2.json');
 
-contract('SolnSquareVerifier', accounts => {
+contract('TestSolnSquareVerifier', accounts => {
 
     let contract;
     const account_one = accounts[0];

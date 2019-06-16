@@ -3,7 +3,7 @@ let SquareVerifier = artifacts.require('SquareVerifier');
 // - use the contents from proof.json generated from zokrates steps
 let proofJson = require('./proof.json');
 
-contract('SquareVerifier', accounts => {
+contract('TestSquareVerifier', accounts => {
 
     let contract;
     const account_one = accounts[0];
