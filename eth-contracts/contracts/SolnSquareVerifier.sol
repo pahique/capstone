@@ -30,7 +30,8 @@ contract SolnSquareVerifier is CapstoneRealEstateToken {
     // define a solutions struct that can hold an index & an address
     struct Solution {
         uint256 index;
-        address sender;
+        uint256 tokenId;
+        address owner;
     }
 
     // define a mapping to store unique solutions submitted
@@ -38,13 +39,13 @@ contract SolnSquareVerifier is CapstoneRealEstateToken {
     uint256 internal indexCount = 0;
 
     // Create an event to emit when a solution is added
-    event SolutionAdded(uint256 index, address sender);
+    event SolutionAdded(uint256 index, uint256 tokenId, address owner);
 
     // Create a function to add the solutions to the array and emit the event
-    function addSolution(bytes32 key, address sender) internal {
+    function addSolution(bytes32 key, uint256 tokenId, address owner) internal {
         indexCount = indexCount.add(1);
-        solutions[key] = Solution(indexCount, sender);
-        emit SolutionAdded(indexCount, sender);
+        solutions[key] = Solution(indexCount, tokenId, owner);
+        emit SolutionAdded(indexCount, tokenId, owner);
     }
 
     // Create a function to mint new Non-FungibleToken only after the solution has been verified
@@ -61,12 +62,13 @@ contract SolnSquareVerifier is CapstoneRealEstateToken {
         uint[2] memory h,
         uint[2] memory k,
         uint[2] memory input
-    ) public {
+    ) public whenNotPaused {
         bytes32 key = keccak256(abi.encodePacked(a, a_p, b, b_p, c, c_p, h, k, input));
         require(solutions[key].index == 0, "Solution already exists");
         require(verifierContract.verifyTx(a, a_p, b, b_p, c, c_p, h, k, input), "Zokrates verification failed");
-        addSolution(key, msg.sender);
-        super.mint(msg.sender, tokenId);
+        addSolution(key, tokenId, msg.sender);
+        _mint(msg.sender, tokenId);
+        setTokenURI(tokenId);
     }
 
 }

@@ -8,6 +8,7 @@ contract('TestSolnSquareVerifier', accounts => {
 
     let contract;
     const account_one = accounts[0];
+    const account_two = accounts[1];
 
     let a = proofJson["proof"]["A"];
     let a_p = proofJson["proof"]["A_p"];
@@ -53,15 +54,15 @@ contract('TestSolnSquareVerifier', accounts => {
     })
 
     // Test if a new solution can be added for contract - SolnSquareVerifier
-    it('second token minted successfully', async function() { 
+    it('second token minted successfully, by a different account', async function() { 
         let tokenId = 2;
-        await contract.mint(tokenId, a2, a_p2, b2, b_p2, c2, c_p2, h2, k2, input2, {from: account_one});
+        await contract.mint(tokenId, a2, a_p2, b2, b_p2, c2, c_p2, h2, k2, input2, {from: account_two});
         let owner = await contract.ownerOf.call(tokenId);
-        assert.equal(owner, account_one);
+        assert.equal(owner, account_two);
         let name = await contract.name.call();
         assert.equal(name, "Capstone Real Estate");
         let symbol = await contract.symbol.call();
-        assert.equal(symbol, "OCA");
+        assert.equal(symbol, "CRE");
         let totalSupply = await contract.totalSupply.call();
         assert.equal(totalSupply, 2);
     })

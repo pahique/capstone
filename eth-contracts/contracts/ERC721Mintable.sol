@@ -4,6 +4,10 @@ import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
+// import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/utils/Address.sol';
+// import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/drafts/Counters.sol';
+// import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol';
+// import 'github.com/OpenZeppelin/zeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 contract Ownable {
@@ -554,7 +558,7 @@ contract CapstoneRealEstateToken is ERC721Metadata {
 
     constructor() ERC721Metadata(
         "Capstone Real Estate", 
-        "OCA", 
+        "CRE", 
         "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/"
     ) public {
     }
