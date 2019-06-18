@@ -6,18 +6,21 @@ Capstone Real Estate project, part of Udacity's Blockchain Developer Nanodegree,
 ## Installation and Testing
 
 On the main folder, run:
-
-    * `npm install`
-
+```
+npm install
+```
 On eth-contracts folder, run:
-
-    * `truffle compile``
-    * `truffle migrate --reset`
-    * `truffle test`
+```
+truffle compile
+truffle migrate --reset
+truffle test
+```
 
 For deployment on Rinkeby network, run:
-
-    * `truffle migrate --reset network rinkeby`
+```
+truffle migrate --reset --network rinkeby
+```
+Note: you may mint tokens using `myetherwallet.com` and the address of SolnSquareVerifier contract.
 
 
 ## Zokrates integration documentation
@@ -25,18 +28,19 @@ For deployment on Rinkeby network, run:
 Note: These steps below have already been done, they are here just for documentation purposes.
 
 Open Zokrates image in Docker:
-
-* `docker run -v <project_folder>/zokrates/code:/home/zokrates/code -ti zokrates/zokrates:0.3.0 /bin/bash`
+```
+docker run -v <project_folder>/zokrates/code:/home/zokrates/code -ti zokrates/zokrates:0.3.0 /bin/bash
+```
 
 Inside Docker terminal, run the following commands:
-
-    1. `cd code/square/`
-    1. `~/zokrates compile -i square.code`
-    1. `~/zokrates setup`
-    1. `~/zokrates compute-witness -a 5 25`
-    1. `~/zokrates generate-proof`
-    1. `~/zokrates export-verifier`
-
+```
+cd code/square/
+~/zokrates compile -i square.code
+~/zokrates setup
+~/zokrates compute-witness -a 5 25
+~/zokrates generate-proof
+~/zokrates export-verifier
+```
 This will generate the proof data (proof.json) and the verifier contract (verifier.sol) that will be used in the main contract and tests.
 
 
@@ -44,14 +48,14 @@ This will generate the proof data (proof.json) and the verifier contract (verifi
 
 * SquareVerifier
 
-    contract address: 0xefD8Be45666C00Ce8222887D788d49baa08f7F71
-    transaction hash: 0x82fb88b57b7a13992676bc0fc0de1676decb051f206dda9c957938887df1b287
+    * contract address: `0xefD8Be45666C00Ce8222887D788d49baa08f7F71`
+    * transaction hash: `0x82fb88b57b7a13992676bc0fc0de1676decb051f206dda9c957938887df1b287`
 
 * SolnSquareVerifier 
 
-    contract address: 0x73B6FF04D2bD8B0746F94D0E25BcfC4C8DaEADbb
-    contract owner: 0x14648D1222B257f63528Fb1cEB3964E008bef522
-    transaction hash: 0x96114b0d3543fdec0db3f8a8ccb59455d876d2370e5ff79e2d99c1b997557bd0
+    * contract address: `0x73B6FF04D2bD8B0746F94D0E25BcfC4C8DaEADbb`
+    * contract owner: `0x14648D1222B257f63528Fb1cEB3964E008bef522`
+    * transaction hash: `0x96114b0d3543fdec0db3f8a8ccb59455d876d2370e5ff79e2d99c1b997557bd0`
 
 * Contract ABI:
 
